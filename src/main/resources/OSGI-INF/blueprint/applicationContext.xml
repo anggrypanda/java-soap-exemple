@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf-2.8.3.xsd">
+
+	<cxf:cxfEndpoint id="cXFTest" address="/javainuse/learn"
+		endpointName="a:SOATestEndpoint" serviceName="a:SOATestEndpointService"
+		wsdlURL="wsdl/test.wsdl" serviceClass="com.javainuse.SOATestEndpoint"
+		xmlns:a="http://javainuse.com" />
+
+	<bean id="processor" class="com.javainuse.beans.CamelProcessor" />
+	<camelContext id="camelId" xmlns="http://camel.apache.org/schema/blueprint">
+
+		<route id="bookTicket">
+			<from uri="cxf:bean:cXFTest" />
+			<process ref="processor" />
+		</route>
+
+	</camelContext>
+</blueprint>
